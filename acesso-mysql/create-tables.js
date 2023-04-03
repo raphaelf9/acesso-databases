@@ -39,7 +39,7 @@ const run = async () => {
             )
           `)
         await connection.query(`
-        CREATE TABLE cateogies_products(          
+        CREATE TABLE categories_products(          
           product_id INT NOT NULL,
           category_id INT NOT NULL,
           KEY fk_categories_products_index (product_id, category_id),
