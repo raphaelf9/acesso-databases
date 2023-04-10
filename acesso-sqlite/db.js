@@ -1,10 +1,7 @@
 const sqlite = require('sqlite3').verbose()
-const db = new sqlite.Database('novobanco.sqlite3',err=>{
-  console.log(err, 'init')
-})
 
-const initDB = database => new Promise((resolve,reject)=>{
-  const db = new sqlite.Database(database,err=>{
+const initDB = (path) => new Promise((resolve,reject)=>{
+  const db = new sqlite.Database(path,(err)=>{
     if(err){
       reject(err)
     }else{
@@ -13,7 +10,7 @@ const initDB = database => new Promise((resolve,reject)=>{
   })
 })
 
-const queryWithParams = (db, query) => new Promise((resolve, reject)=>{
+const queryWithParams =(db, query,values) => new Promise((resolve, reject)=>{
   db.run(query,values, err=>{
     if(err){
       reject(err)
@@ -23,7 +20,19 @@ const queryWithParams = (db, query) => new Promise((resolve, reject)=>{
   })
 })
 
+const query =(db, query) => new Promise((resolve, reject)=>{
+  db.all(query, (err, row)=>{
+    if(err){
+      reject(err)
+    }else{
+      resolve(row)
+    }
+  })
+})
+
+
 module.exports ={
   initDB,
-  queryWithParams
+  queryWithParams,
+  query
 }
